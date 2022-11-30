@@ -11,7 +11,8 @@
     [blank.events]
     [reitit.core :as reitit]
     [reitit.frontend.easy :as rfe]
-    [clojure.string :as string])
+    [clojure.string :as string]
+    [ajax.core :refer [GET POST]])
   (:import goog.History))
 
 (defn nav-link [uri title page]
