@@ -48,83 +48,59 @@
 
    ["/ping"
     {:get (constantly (ok {:message "pong"}))}]
-   
+
 
    ["/math"
     {:swagger {:tags ["math"]}}
 
     ["/plus"
-     {:get  {:summary    "plus with spec query parameters"
-             :parameters {:query {:x int?, :y int?}}
-             :responses  {200 {:body {:total pos-int?}}}
-             :handler    (fn [{{{:keys [x y]} :query} :parameters}]
-                             {:status 200
-                              :body   {:total (+ x y)}})}
-      :post {:summary    "plus with spec body parameters"
+     {:post {:summary    "plus with spec body parameters"
              :parameters {:body {:x int?, :y int?}}
-             :responses  {200 {:body {:total pos-int?}}}
+             :responses  {200 {:body {:result pos-int?}}}
              :handler    (fn [{{{:keys [x y]} :body} :parameters}]
                              {:status 200
-                              :body   {:total (+ x y)}})}}]
+                              :body   {:result (+ x y)}})}}]
     ["/minus"
-     {:get  {:summary    "minus with spec query parameters"
-             :parameters {:query {:x int?, :y int?}}
-             :responses  {200 {:body {:total pos-int?}}}
-             :handler    (fn [{{{:keys [x y]} :query} :parameters}]
-                             {:status 200
-                              :body   {:total (- x y)}})}
-      :post {:summary    "plus with spec body parameters"
+     {:post {:summary    "minus with spec body parameters"
              :parameters {:body {:x int?, :y int?}}
-             :responses  {200 {:body {:total pos-int?}}}
+             :responses  {200 {:body {:result pos-int?}}}
              :handler    (fn [{{{:keys [x y]} :body} :parameters}]
                              {:status 200
-                              :body   {:total (- x y)}})}}]
+                              :body   {:result (- x y)}})}}]
     ["/multiply"
-     {:get  {:summary    "multiply with spec query parameters"
-             :parameters {:query {:x int?, :y int?}}
-             :responses  {200 {:body {:total pos-int?}}}
-             :handler    (fn [{{{:keys [x y]} :query} :parameters}]
-                             {:status 200
-                              :body   {:total (* x y)}})}
-      :post {:summary    "multiply with spec body parameters"
+     {:post {:summary    "multiply with spec body parameters"
              :parameters {:body {:x int?, :y int?}}
-             :responses  {200 {:body {:total pos-int?}}}
+             :responses  {200 {:body {:result pos-int?}}}
              :handler    (fn [{{{:keys [x y]} :body} :parameters}]
                              {:status 200
-                              :body   {:total (* x y)}})}}]
+                              :body   {:result (* x y)}})}}]
     ["/divide"
-     {:get  {:summary    "divide with spec query parameters"
-             :parameters {:query {:x int?, :y int?}}
-             :responses  {200 {:body {:total pos-int?}}}
-             :handler    (fn [{{{:keys [x y]} :query} :parameters}]
-                             {:status 200
-                              :body   {:total (/ x y)}})}
-      :post {:summary    "divide with spec body parameters"
+     {:post {:summary    "divide with spec body parameters"
              :parameters {:body {:x int?, :y int?}}
-             :responses  {200 {:body {:total pos-int?}}}
+             :responses  {200 {:body {:result pos?}}}
              :handler    (fn [{{{:keys [x y]} :body} :parameters}]
                              {:status 200
-                              :body   {:total (float (/ x y))}})}}]]
-
+                              :body   {:result (float (/ x y))}})}}]]
 
    ["/files"
     {:swagger {:tags ["files"]}}
 
     ["/upload"
-     {:post {:summary "upload a file"
+     {:post {:summary    "upload a file"
              :parameters {:multipart {:file multipart/temp-file-part}}
-             :responses {200 {:body {:name string?, :size int?}}}
-             :handler (fn [{{{:keys [file]} :multipart} :parameters}]
-                        {:status 200
-                         :body {:name (:filename file)
-                                :size (:size file)}})}}]
+             :responses  {200 {:body {:name string?, :size int?}}}
+             :handler    (fn [{{{:keys [file]} :multipart} :parameters}]
+                             {:status 200
+                              :body   {:name (:filename file)
+                                       :size (:size file)}})}}]
 
     ["/download"
      {:get {:summary "downloads a file"
             :swagger {:produces ["image/png"]}
             :handler (fn [_]
-                       {:status 200
-                        :headers {"Content-Type" "image/png"}
-                        :body (-> "public/img/warning_clojure.png"
-                                  (io/resource)
-                                  (io/input-stream))})}}]]])
+                         {:status  200
+                          :headers {"Content-Type" "image/png"}
+                          :body    (-> "public/img/warning_clojure.png"
+                                       (io/resource)
+                                       (io/input-stream))})}}]]])
+
